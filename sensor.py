@@ -5,13 +5,13 @@ import sys
 import os
 import utils
 
-
 def send_state(state, host, port):
     try:
-        print("Sending state: " + str(int_to_bool(state)))
+        state_string = str(utils.int_to_bool(state))
+        print("Sending state: " + state_string)
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect((host, port))
-        sock.sendall("post " + str(int_to_bool(state)))
+        sock.sendall("post " + state_string)
     except Exception as exception:
         print("Failed to send state: " + str(exception))
 
@@ -26,12 +26,12 @@ def main():
         sys.exit()
 
     host = sys.argv[1]
-    if !utils.is_domain_name(host) and !utils.is_ipv4_address(host):
+    if not utils.is_domain_name(host) and not utils.is_ipv4_address(host):
         print("Invalid host. (Host must be domain name or ipv4 address.)")
         sys.exit()
 
     port = int(sys.argv[2])
-    if !utils.is_valid_port(port):
+    if not utils.is_valid_port(port):
         print("Invalid port number. (Port must be between 1024 and 65535.)")
         sys.exit()
         
@@ -57,13 +57,13 @@ def main():
             #if state change, inform server
             if (prev_state != cur_state):
                 prev_state = cur_state
-                send_state(cur_state)
+                send_state(cur_state, host, port)
                 
             #sample once per minute
             time.sleep(1) #sampling every second for testing
         
     except Exception as exception:
-        print("Recieved the following exception: " + exception)
+        print("Recieved the following exception: " + str(exception))
         cleanup()
 
     except KeyboardInterrupt:

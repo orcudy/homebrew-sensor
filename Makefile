@@ -11,5 +11,8 @@ clean:
 	(rm *.pyc || /bin/true) \
 	) 2>/dev/null)
 
+test:
+	python tests.py
+
 edit:
 	emacs -nw sensor.py

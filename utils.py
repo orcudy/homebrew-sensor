@@ -10,7 +10,7 @@ def is_ipv4_address(string):
     if len(decimals) != 4:
         return False
     for number in decimals:
-        if number > 255 or 0 >= number:
+        if int(number) > 255 or 0 > int(number):
             return False
     return True
 
